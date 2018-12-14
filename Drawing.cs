@@ -1,4 +1,4 @@
-﻿// Title:          Task 3.1P - Drawing
+﻿// Title:          4-1P_ShapeDrawingV3 - Drawing.cs
 // Author:         Andrew Colbeck © 2018, all rights reserved.
 // Version:        1.0
 // Description:    This Class creates a Drawing which allowins the user to add,
@@ -6,7 +6,6 @@
 // Date modified:  26/03/2018
 // To Fix:         Complete!
 
-using System;
 using System.Collections.Generic;
 using SwinGameSDK;
 
@@ -19,7 +18,7 @@ namespace MyGame
         private Color _background;
         
         // CONSTRUCTORS:
-        // Default Constructor
+        // Default Constructor:
         public Drawing() : this (Color.White) 
         {
         }
@@ -31,17 +30,8 @@ namespace MyGame
         }
 
         // PROPERTIES:
-        public Color Background 
-        {
-            get { return _background; }
-            set { _background = value; }
-        }
-    
-        public int ShapeCount 
-        {
-            get { return _shapes.Count; }
-        }
-        
+        public Color Background { get => _background; set => _background = value; }
+        public int ShapeCount { get => _shapes.Count; } // READ-ONLY
         public List<Shape> SelectedShapes 
         {
             get 
@@ -66,10 +56,9 @@ namespace MyGame
         }
         
         // Collaborative Callthrough to each Shape's own Draw method:
-        public void Draw() 
+        public virtual void Draw() 
         {
             SwinGame.ClearScreen(Background);
-
             foreach (Shape shape in _shapes) 
             {
                 shape.Draw ();

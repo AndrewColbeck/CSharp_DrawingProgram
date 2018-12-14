@@ -51,6 +51,9 @@
     <Compile Include="src\GameMain.cs" />
     <Compile Include="Shape.cs" />
     <Compile Include="Drawing.cs" />
+    <Compile Include="Rectangle.cs" />
+    <Compile Include="Circle.cs" />
+    <Compile Include="Line2.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="SwinGame">

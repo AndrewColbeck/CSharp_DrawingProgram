@@ -1,4 +1,4 @@
-﻿// Title:           4-1P_ShapeDrawingV3 - Shape.cs
+﻿// Title:           Shape.cs
 // Author:          Andrew Colbeck © 2018, all rights reserved.
 // Version:         1.0
 // Description:     This Class creates a 100x100 pixel square using SwinGame SDK.
@@ -6,6 +6,7 @@
 // To Fix:          Complete!
 
 using System;
+using System.IO;
 using SwinGameSDK;
 
 namespace MyGame 
@@ -15,30 +16,25 @@ namespace MyGame
         // LOCAL VARIABLES:
         private Color _color;
         private float _x, _y;
-        private int _width, _height;
         private bool _selected;
         
         // CONSTRUCTORS:
         // Default Constructor:
-        public Shape() : this (Color.Yellow)
+        protected Shape() : this (Color.Yellow)
         {
         }
         
-        public Shape(Color color) 
+        protected Shape(Color color) 
         {
-            _color = Color.Green;
+            _color = color;
             _x = 0;
             _y = 0;
-            _width = 100;
-            _height = 100;
         }
         
         // PROPERTIES:
         public Color Color { get => _color; set => _color = value; }
         public float X { get => _x; set => _x = value; }
         public float Y { get => _y; set => _y = value; }
-        public int Width { get => _width; set => _width = value; }
-        public int Height { get => _height; set => _height = value; }
         public bool Selected { get => _selected; set => _selected = value; }
 
         // METHODS:
@@ -52,5 +48,20 @@ namespace MyGame
         // Abstract method draws a 2 pixel black line around a Shape to 
         // signify the Shape is selected, the outline is determined by 'kind':
         public abstract void DrawOutline ();
+        
+        // SaveTo Method will save Shape details to file:
+        public virtual void SaveTo(StreamWriter writer) 
+        {
+            writer.WriteLine (Color.ToArgb ());
+            writer.WriteLine (X);
+            writer.WriteLine (Y);
+        }
+        
+        public virtual void LoadFrom(StreamReader reader)
+        {
+            Color = Color.FromArgb (reader.ReadInteger ());
+            X = reader.ReadInteger ();
+            Y = reader.ReadInteger ();
+        }
     }
 }

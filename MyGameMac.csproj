@@ -54,6 +54,7 @@
     <Compile Include="Rectangle.cs" />
     <Compile Include="Circle.cs" />
     <Compile Include="Line2.cs" />
+    <Compile Include="ExtensionMethods.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="SwinGame">

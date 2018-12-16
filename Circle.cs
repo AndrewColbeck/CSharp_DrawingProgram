@@ -1,10 +1,11 @@
-﻿// Title:			4-1P_ShapeDrawingV3 - Circle.cs
+﻿// Title:			Circle.cs
 // Author:			Andrew Colbeck © 2018, all rights reserved.
 // Version:			1.0
 // Description:		Program designed for submission in OOP Portfolio. 
 // Last modified:	26/03/2018
 // To Fix:         	Complete!
 
+using System.IO;
 using SwinGameSDK;
 
 namespace MyGame
@@ -18,13 +19,15 @@ namespace MyGame
         // CONSTRUCTORS:
         public Circle (Color clr, int radius)
         {
+            Color = clr;
+            Radius = radius;
         }
         
         // Default Constructor:
-        public Circle () : this (Color.Blue, 50)
+        public Circle () : this (Color.Green, 50)
         {
-            _radius = 50;
         }
+        
         //PROPERTIES:
         public int Radius { get => _radius; set => _radius = value; }
 
@@ -49,5 +52,19 @@ namespace MyGame
             return SwinGame.PointInCircle (pt, X, Y, Radius);
         }
         
+        // SaveTo OVERRIDDEN Method for Circle:
+        public override void SaveTo (StreamWriter writer)
+        {
+            writer.WriteLine("Circle");
+            base.SaveTo (writer);
+            writer.WriteLine (Radius);
+        }
+        
+        // LoadFrom OVERRRIDEN Method for Rectangle:
+        public override void LoadFrom (StreamReader reader)
+        {
+            base.LoadFrom (reader);
+            Radius = reader.ReadInteger ();
+        }
 	}
 }

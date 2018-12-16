@@ -1,10 +1,11 @@
-﻿// Title:           4-1P_ShapeDrawingV3 - LineClass.cs
+﻿// Title:           LineClass.cs
 // Author:          Andrew Colbeck © 2018, all rights reserved.
 // Version:         1.0
 // Description:     Program designed for submission in OOP Portfolio. 
 // Last modified:   28/03/2018
 // To Fix:          Complete!
 
+using System.IO;
 using SwinGameSDK;
 
 namespace MyGame
@@ -44,6 +45,23 @@ namespace MyGame
         public override bool IsAt (Point2D pt)
         {
             return SwinGame.PointOnLine(pt, X, Y, (X + 50), (Y + 50));
+        }
+        
+        // SaveTo OVERRIDDEN Method for Line:
+        public override void SaveTo (StreamWriter writer)
+        {
+            writer.WriteLine("Line");
+            base.SaveTo (writer);
+            writer.WriteLine (X + 50);
+            writer.WriteLine (Y + 50);
+        }
+        
+        // LoadFrom OVERRRIDEN Method for Rectangle:
+        public override void LoadFrom (StreamReader reader)
+        {
+            base.LoadFrom (reader);
+            X = reader.ReadInteger ();
+            Y = reader.ReadInteger ();
         }
     }
 }

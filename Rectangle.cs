@@ -1,10 +1,11 @@
-﻿// Title:			4-1P_ShapeDrawingV3 - Rectangle.cs
+﻿// Title:			Rectangle.cs
 // Author:			Andrew Colbeck © 2018, all rights reserved.
 // Version:			1.0
 // Description:		Rectangle Class for 4.1P Task
 // Last modified:	26/03/2018
 // To Fix:         	Complete!
 
+using System.IO;
 using SwinGameSDK;
 
 namespace MyGame
@@ -27,13 +28,14 @@ namespace MyGame
         {
             X = x;
             Y = y;
+            Color = clr;
             Width = width;
             Height = height;
         }
         
         // PROPERTIES:
-        public new int Width { get => _width; set => _width = value; }
-        public new int Height { get => _height; set => _height = value; }
+        public int Width { get => _width; set => _width = value; }
+        public int Height { get => _height; set => _height = value; }
     
         // METHODS:
         // Override, allows the Object to override the existing method in
@@ -54,6 +56,24 @@ namespace MyGame
 		public override bool IsAt (Point2D pt)
 		{
 			return SwinGame.PointInRect(pt, X, Y, Width, Height);
+		}
+
+		// SaveTo OVERRIDDEN Method for Rectangle:
+		public override void SaveTo (StreamWriter writer)
+		{
+            writer.WriteLine("Rectangle");
+            base.SaveTo (writer);
+            writer.WriteLine (Width);
+            writer.WriteLine (Height);
+            
+		}
+
+		// LoadFrom OVERRRIDEN Method for Rectangle:
+		public override void LoadFrom (StreamReader reader)
+		{
+			base.LoadFrom (reader);
+            Width = reader.ReadInteger ();
+            Height = reader.ReadInteger ();
 		}
 
 	}

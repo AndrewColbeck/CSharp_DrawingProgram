@@ -1,4 +1,4 @@
-// Title:          4-1P_ShapeDrawingV3 - GameMain.cs
+// Title:          GameMain.cs
 // Author:         Andrew Colbeck © 2018, all rights reserved.
 // Version:        1.0
 // Description:    Drawing Program that allows users to select/delete/change
@@ -6,27 +6,16 @@
 // Date modified:  26/03/2018
 // To Fix:         Complete!
 
-// --------------------------------
-// ** REFLECTIONS ON ABSTRACTION**
-// --------------------------------
-/* As we approach a particular problem or begin to imagine how a set of tasks or 
- objects may interact to fullfil a desired outcome, we begin the process of 
- mentally abstracting representations of these things as they exist in reality.
+// ** CONTROLS **     
+// Spacebar:           Change background to a random colour
+// Left Click:         Draw a Rectangle
+// Right Click:        Select a Shape
+// Backspace Button:   Delete selected Shapes
+// R, C, and L Button: Toggle between Rectangle, Circle, or Line
+// S                   Save Game
+// O                   Open Game
 
- During this process and throughout continual development of our Programs, we 
- further refine these abstractions and begin to make decisions about how they 
- should be represented in code, what they should “know”, and what they should be 
- able to “do”.
-
- In this Program abstraction allows us to override the Draw(), DrawOutline(), 
- and Shape Class in a way that informs the compiler that the methods exist, 
- but that they will also morph to suit the ‘kind of’ Shape which has yet to be 
- created.
-
- This allows the compiler to prepare for the execution of these methods while 
- remaining agnostic to the actual resources and the way they will interact until 
- the methods are eventually called. */
-
+using System;
 using SwinGameSDK;
 
 namespace MyGame 
@@ -49,47 +38,45 @@ namespace MyGame
             SwinGame.OpenGraphicsWindow("GameMain", 800, 600);
             SwinGame.ShowSwinGameSplashScreen();
             
+            
             // GAME LOOP:
             while (SwinGame.WindowCloseRequested() == false) 
             {
-                // ** CONTROLS **     
-                // Spacebar:           Change background to a random colour
-                // Left Click:         Draw a Rectangle
-                // Right Click:        Select a Shape
-                // Backspace Button:   Delete selected Shapes
-                // R, C, and L Button: Toggle between Rectangle, Circle, or Line
-                
+
                 // Fetch the next batch of UI interaction:
                 SwinGame.ProcessEvents();
                 
                 // Clear the screen and draw the framerate:
                 SwinGame.ClearScreen(Color.White);
 
-                // Change Background to random color if Spacebar Key is pressed:
+                
+                // HANDLE INPUT:
+                
+                // Background Color:
                 if (SwinGame.KeyTyped(KeyCode.SpaceKey)) 
                 {
                     drawing.Background = SwinGame.RandomRGBColor (255);
                 }
-                
-                // If R Key is pressed: Shape type changes to Rectangle:
+                 
+                 // Rectangle:
                 if (SwinGame.KeyTyped (KeyCode.RKey)) 
                 {
                     kindToAdd = ShapeKind.Rectangle;
                 }
-                
-                // If C Key is pressed: Shape type changes to Circle:
+
+                // Circle:
                 if (SwinGame.KeyTyped (KeyCode.CKey)) 
                 {
                     kindToAdd = ShapeKind.Circle;
                 }
                 
-                // If L Key is pressed: Shape type changes to Line:
+                // Line:
                 if (SwinGame.KeyTyped (KeyCode.LKey)) 
                 {
                     kindToAdd = ShapeKind.Line;
                 }
 
-                // Create a new Shape at Mouse's position when LMB is clicked:
+                // Draw:
                 if (SwinGame.MouseClicked(MouseButton.LeftButton)) 
                 {
                     // New Shape is created (by default as a Rectangle)
@@ -129,6 +116,33 @@ namespace MyGame
                 if (SwinGame.KeyTyped(KeyCode.BackspaceKey))
                 {
                     drawing.DeleteSelectedShapes ();
+                }
+                
+                // Save all Shapes when S key is typed:
+                if (SwinGame.KeyTyped(KeyCode.SKey))
+                {
+                    try 
+                    {
+                        drawing.Save ("Users/andru/Desktop/TestDrawing.txt");
+                    }
+                    catch( Exception e )
+                    {
+                        Console.Error.WriteLine ("Error saving to file: {0}", e.Message);
+                    }
+                    
+                }
+                
+                // Open from Text File when O key is typed:
+                if (SwinGame.KeyTyped(KeyCode.OKey))
+                {
+                    try 
+                    {
+                        drawing.Load("//Users/andru/Desktop/TestDrawing.txt"); 
+                    } 
+                    catch( Exception e ) 
+                    {
+                        Console.Error.WriteLine ("Error loading file: {0}", e.Message);
+                    }
                 }
                 
                 // Draw Assets in drawing Object:               

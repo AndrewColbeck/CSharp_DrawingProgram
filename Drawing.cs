@@ -1,4 +1,4 @@
-﻿// Title:          4-1P_ShapeDrawingV3 - Drawing.cs
+﻿// Title:          Drawing.cs
 // Author:         Andrew Colbeck © 2018, all rights reserved.
 // Version:        1.0
 // Description:    This Class creates a Drawing which allowins the user to add,
@@ -7,6 +7,7 @@
 // To Fix:         Complete!
 
 using System.Collections.Generic;
+using System.IO;
 using SwinGameSDK;
 
 namespace MyGame 
@@ -26,7 +27,7 @@ namespace MyGame
         public Drawing (Color background) 
         {
             _shapes = new List<Shape> ();
-            Background = background;
+            _background = background;
         }
 
         // PROPERTIES:
@@ -82,6 +83,67 @@ namespace MyGame
             {
                 _shapes.Remove (shape);
             } 
+        }
+        
+        // Save Method:
+        public void Save(string filename)
+        {
+            StreamWriter writer = new StreamWriter(filename);
+            try
+            {
+                // Output the Background as an Integer:
+                writer.WriteLine (Background.ToArgb ());
+                writer.WriteLine (ShapeCount);
+                
+                // SaveTo Method saves Shape parameters to writer:
+                foreach(Shape s in _shapes)
+                {
+                    s.SaveTo (writer); // s.Color, s.X, s.Y
+                }
+            }
+            finally
+            {
+                writer.Close ();
+            }
+            
+        }
+        
+        // Load file
+        public void Load(string filename)
+        {
+            StreamReader reader = new StreamReader (filename);
+            try 
+            {
+                Background = Color.FromArgb (reader.ReadInteger ());
+                int count = reader.ReadInteger ();
+                string kind;
+                Shape s;
+
+                for (int i = 0; i < count; i++) 
+                {
+                    kind = reader.ReadLine ();
+                    switch (kind) 
+                    {
+                        case "Rectangle":
+                            s = new Rectangle ();
+                            break;
+                        case "Circle":
+                            s = new Circle ();
+                            break; 
+                        case "Line":
+                            s = new Line ();
+                            break;
+                        default:
+                            throw new InvalidDataException ("Unknown shape kind: " + kind);
+                    }
+                    s.LoadFrom (reader);
+                    AddShape (s);
+                }
+            }
+            finally 
+            {
+                reader.Close ();
+            }
         }
     }
 }

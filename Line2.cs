@@ -50,7 +50,7 @@ namespace MyGame
         // SaveTo OVERRIDDEN Method for Line:
         public override void SaveTo (StreamWriter writer)
         {
-            writer.WriteLine("Line");
+            // writer.WriteLine("Line");
             base.SaveTo (writer);
             writer.WriteLine (X + 50);
             writer.WriteLine (Y + 50);

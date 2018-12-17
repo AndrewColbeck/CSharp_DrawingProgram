@@ -17,6 +17,7 @@
 
 using System;
 using SwinGameSDK;
+using System.Reflection;
 
 namespace MyGame 
 {
@@ -31,6 +32,11 @@ namespace MyGame
         
         public static void Main() 
         {
+            // REGISTER SHAPES:
+            Shape.RegisterShape ("Rectangle", typeof (Rectangle));
+            Shape.RegisterShape ("Circle", typeof (Circle));
+            Shape.RegisterShape ("Line", typeof (Line));
+            
             // LOCAL VARIABLES:
             Drawing drawing = new Drawing();
             ShapeKind kindToAdd = ShapeKind.Circle;

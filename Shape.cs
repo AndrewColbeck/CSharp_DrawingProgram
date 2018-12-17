@@ -6,6 +6,7 @@
 // To Fix:          Complete!
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using SwinGameSDK;
 
@@ -13,6 +14,43 @@ namespace MyGame
 {
     public abstract class Shape 
     {
+        // SHAPE DICTIONARY:
+        private static Dictionary<string, Type> _ShapeClassRegistry = new Dictionary<string, Type> ();
+        
+            // Add a Shape
+        public static void RegisterShape(string name, Type t)
+        {
+            _ShapeClassRegistry [name] = t;
+        }
+        
+            // Create Shape from key
+        public static Shape CreateShape(string name)
+        {
+            try 
+            {
+                return (Shape)Activator.CreateInstance (_ShapeClassRegistry [name]);
+            }
+            catch( Exception e ) 
+            {
+                
+                Console.Error.WriteLine ("Error creating Shape from {0}", e.Message);
+                return null;
+            }
+        }
+        
+            // Return key of a shape
+        public static string GetKey(Type t)
+        {
+            foreach (string s in _ShapeClassRegistry.Keys)
+            {
+                if (t.Equals(_ShapeClassRegistry[s]))
+                {
+                    return s;
+                }
+            }
+            return null;
+        }
+        
         // LOCAL VARIABLES:
         private Color _color;
         private float _x, _y;
@@ -52,11 +90,13 @@ namespace MyGame
         // SaveTo Method will save Shape details to file:
         public virtual void SaveTo(StreamWriter writer) 
         {
+            writer.WriteLine (GetKey(GetType ()));
             writer.WriteLine (Color.ToArgb ());
             writer.WriteLine (X);
             writer.WriteLine (Y);
         }
         
+        // LoadFrom loads Shape
         public virtual void LoadFrom(StreamReader reader)
         {
             Color = Color.FromArgb (reader.ReadInteger ());

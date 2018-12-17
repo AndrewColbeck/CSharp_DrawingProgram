@@ -98,7 +98,7 @@ namespace MyGame
                 // SaveTo Method saves Shape parameters to writer:
                 foreach(Shape s in _shapes)
                 {
-                    s.SaveTo (writer); // s.Color, s.X, s.Y
+                    s.SaveTo (writer); 
                 }
             }
             finally
@@ -122,20 +122,25 @@ namespace MyGame
                 for (int i = 0; i < count; i++) 
                 {
                     kind = reader.ReadLine ();
-                    switch (kind) 
-                    {
-                        case "Rectangle":
-                            s = new Rectangle ();
-                            break;
-                        case "Circle":
-                            s = new Circle ();
-                            break; 
-                        case "Line":
-                            s = new Line ();
-                            break;
-                        default:
-                            throw new InvalidDataException ("Unknown shape kind: " + kind);
-                    }
+                
+                //switch (kind) {
+                    //case "Rectangle":
+                    //    s = new Rectangle ();
+                    //    break;
+                    //case "Circle":
+                    //    s = new Circle ();
+                    //    break;
+                    //case "Line":
+                    //    s = new Line ();
+                    //    break;
+                        
+                    //default:
+                    //    throw new InvalidDataException ("Unknown shape kind: " + kind);
+                    //}
+
+
+                    // Create Shape from dictionary
+                    s = Shape.CreateShape (kind);
                     s.LoadFrom (reader);
                     AddShape (s);
                 }
